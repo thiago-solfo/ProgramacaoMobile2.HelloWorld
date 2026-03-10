@@ -1,50 +1,53 @@
-# Welcome to your Expo app 👋
+### Pesquisa
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+## Como é feito o commonMain? (código  compartilhado, sem dependências)
+### Flutter
+- Usa `dart` como uma linguagem única
+- O Código `dart` roda numa máquina virtual, a `Dart VM`
+- O Código inteiro, roda sem dependências, graças ao seu isolamento do sistema operacional
 
-## Get started
+### React
+- Usa `Javascript/Typescript` como uma linguagem única
+- O código roda numa engine, o `Hermes`, por padrão
 
-1. Install dependencies
 
-   ```bash
-   npm install
-   ```
+## Como o framework fala com o Target?
+### Flutter
+O Dart, quando quer chamar uma função nativa, ele utiliza o `Method Channel`
+Ele é uma camada intermediária, que chama uma função que está no Android ou IOS, espera a chamada e continua.
+- Dart -> envia mensagem -> MethodChannel -> Código nativo
+- Código nativo -> MethodChannel -> Recebe resposta -> Dart
 
-2. Start the app
+### React native
+Já o React native, utiliza o `Bridge`, ou o mais novo`JSI`, que chama as APIS nativas do android
+- O React native, disponibiliza APIS nativas atravéz dos `NativeModules`
+- No nosso exemplo utilizamos o `Platform.OS`
+- Esses `NativeModules`, traduzem a instrução para uma chamada para o `Bridge\JSI` 
 
-   ```bash
-   npx expo start
-   ```
+## Como criar um aplicativo multiplataforma com React Native
 
-In the output, you'll find options to open the app in a
+### Instalação
+- Usar toolbox do Rider, disponível em: https://www.jetbrains.com/toolbox-app/
+- Baixar o Android Studio.
+- Utilizamos um celular físico para debug
+- Usando  comando `npx create-expo-app@latest`, criamos uma aplicação inicial
+- Após a instalação, abrimos a pasta criada no `vscode`
+- Utilizamos o comando `npm start`, para rodar a aplicação inicial
+- Na play store, instalamos o aplicativo `expo go`
+- No aplicativo, inserimos o endereço mostrado no console, no nosso caso: `exp://192.168.0.120:8081` (o IP pode mudar).
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+### Criação do Hello World
+- Dentro do arquivo `_layout.tsx`, trocamos o conteúdo para apresentar um `Hello World`
+- Utilizamos próprios componentes disponibilizados pelo template do expo
+- Na função `RootLayout`, dentro do componente `ThemeProvider`, adicionamos uma `ThemedView`
+    - Esse componente, ajuda a apresentar um background que depende do tema do usuário
+    - Utilizamos a propriedade `style`, para fazer com que a view ocupasse toda a tela
+- Usando um `ThemedText`, apresentamos a mensagem de `Hello World!`
+    - Novamente, esse componente, respeita o tema do telefone do usuário
+- Abaixo do `ThemedText`, adicionamos um `Button`
+    - Na propriedade `title`, adicionamos o título `Aperte aqui`
+    - Na propridade `onPress`, passamos um callback, que utiliza o built in `alert`, onde passamos como parametro, a nossa saudação
+    - Utilizamos o utilitário `Platform.OS`, para mostrar uma mensagem customizada dependendo do sistema operacional do usuário
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
 
-## Get a fresh project
 
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
